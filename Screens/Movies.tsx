@@ -16,6 +16,7 @@ export const Movies = ({navigation}) =>{
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         axios.get<MoviesInterface>(BASE_URL+API_URL).then((response) => {
             setApiResultDataClass(response.data.results)
         })
@@ -32,8 +33,7 @@ export const Movies = ({navigation}) =>{
     return(
         <View style = {styles.container}>
             <Text style = {styles.text}>Catch up</Text>
-            {
-                isLoading ? <ActivityIndicator/> : (
+                {isLoading ?<ActivityIndicator size = "large" color = "red"/> : null}
                     <FlatList showsVerticalScrollIndicator = {false} 
                         data = {apiResultDataClass} 
                         keyExtractor = {(item) => `key-${item.id}`} 
@@ -55,18 +55,15 @@ export const Movies = ({navigation}) =>{
                             vote_count = {item.item.vote_count}
                         />)}}
                     />
-                )
-            }
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex : 1,
         justifyContent : "center",
         alignItems : "center",
-        paddingTop : Constants.statusBarHeight
+        paddingTop : Constants.statusBarHeight,
     },
 
     text : {

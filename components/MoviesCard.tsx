@@ -27,10 +27,21 @@ export const MoviesCard : React.FC<Result> = ({
 
     return(
         <TouchableWithoutFeedback onPress = {() => 
-            navigation.navigate("Details", {title : title, poster_path : poster_path, original_title : original_title, vote_average : vote_average, overview: overview, release_date : release_date})}>
+            navigation.navigate("Details",
+                {
+                    title : title,
+                    poster_path : poster_path, 
+                    original_title : original_title, 
+                    vote_average : vote_average, 
+                    overview: overview, 
+                    release_date : release_date, 
+                    id : id, 
+                    backdrop_path : backdrop_path,
+                    popularity : popularity
+                })}>
             <View style ={styles.container}>
                 <Image source = {{uri : IMAGE_BASE_URL+poster_path}} style = {styles.image}/>  
-                <Text>{title}</Text>          
+                <Text style = {styles.bold}>{title}</Text>       
             </View>
         </TouchableWithoutFeedback>     
     )
@@ -38,8 +49,6 @@ export const MoviesCard : React.FC<Result> = ({
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection : "column",
-        flexWrap : "wrap",
         marginBottom : 20,
     
     },
@@ -49,5 +58,9 @@ const styles = StyleSheet.create({
         height : 513,
         resizeMode : "cover",
         borderRadius : 20
+    },
+    bold : {
+        fontSize : 20,
+        fontWeight : "bold",
     }
 })
