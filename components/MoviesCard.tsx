@@ -50,6 +50,8 @@ export const MoviesCard : React.FC<Result> = ({
 const styles = StyleSheet.create({
     container: {
         marginBottom : 20,
+        alignItems : "center",
+        justifyContent : "center"
     
     },
 
