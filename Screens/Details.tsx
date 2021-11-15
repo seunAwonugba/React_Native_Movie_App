@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { API_KEY, BASE_URL, IMAGE_BASE_URL, VIDEO_URL } from "../constants/Constants";
 import Constants from 'expo-constants';
 import { AntDesign } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ export const Details = ({navigation, route}) =>{
     } = route.params;
     const [fetchVideo, setFetchVideo] = useState<Result[]>([])
     const [isThrillerLoading, setIsThrillerLoading] = useState(false)
+    const [like, setLike] = useState(false)
 
     useEffect(() => {
         setIsThrillerLoading(true)
@@ -35,6 +36,10 @@ export const Details = ({navigation, route}) =>{
         })
     }, [])
 
+    const saveMovieHandler = () => {
+        setLike(!like)
+    }
+
     return(
         <View style = {styles.container}>
             
@@ -43,6 +48,10 @@ export const Details = ({navigation, route}) =>{
                 style = {styles.image}
                 source = {{uri : IMAGE_BASE_URL+poster_path}}/>
             <AntDesign name="arrowleft" size={24} color="white" style = {styles.backArrow} onPress = {() => navigation.goBack()}/>
+            <TouchableOpacity  style = {styles.love} onPress = {() => saveMovieHandler()}>
+                <AntDesign name= {like ? "heart" : "hearto"} size={24} color="white"  />
+            </TouchableOpacity>
+            
 
             <View style = {styles.section}>
                 <View style = {styles.titleContainer}>
@@ -127,5 +136,13 @@ const styles = StyleSheet.create({
         fontSize : 20,
         fontWeight : "bold"
     },
+
+    love : {
+        position : "absolute",
+        right : 0,
+        top : Constants.statusBarHeight,
+        padding : 15,
+        zIndex : 1
+    }
 
 })
