@@ -16,7 +16,7 @@ export const Movies = ({navigation}) =>{
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        setIsLoading(true)
+        setIsLoading(true) 
         axios.get<MoviesInterface>(BASE_URL+API_URL).then((response) => {
             setApiResultDataClass(response.data.results)
         })
