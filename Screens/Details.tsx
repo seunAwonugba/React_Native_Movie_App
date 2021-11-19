@@ -7,6 +7,8 @@ import axios from "axios";
 import { Result, VideosDataClass } from "../interface/VideosDataClass";
 import { Trailers } from "../components/Trailers";
 import ReadMore from '@fawazahmed/react-native-read-more';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 export const Details = ({navigation, route}) =>{
@@ -23,6 +25,12 @@ export const Details = ({navigation, route}) =>{
     const [isThrillerLoading, setIsThrillerLoading] = useState(false)
     const [like, setLike] = useState(false)
 
+    const [imageState, setImageState] = useState(poster_path)
+    
+
+    
+
+
     useEffect(() => {
         setIsThrillerLoading(true)
         axios.get<VideosDataClass>(`${BASE_URL}movie/${id}/${VIDEO_URL}`).then(function (response) {
@@ -36,9 +44,22 @@ export const Details = ({navigation, route}) =>{
         })
     }, [])
 
-    const saveMovieHandler = () => {
+    const changeSaveIconHandler = () => {
         setLike(!like)
     }
+
+    const saveToDB = async () => {
+        await AsyncStorage.setItem("IMAGE-KEY", imageState)
+        setImageState(poster_path)
+    }
+
+
+    const saveMovieHandler = () => {
+        changeSaveIconHandler()
+        saveToDB()
+    }
+
+
 
     return(
         <View style = {styles.container}>
@@ -48,7 +69,7 @@ export const Details = ({navigation, route}) =>{
                 style = {styles.image}
                 source = {{uri : IMAGE_BASE_URL+poster_path}}/>
             <AntDesign name="arrowleft" size={24} color="white" style = {styles.backArrow} onPress = {() => navigation.goBack()}/>
-            <TouchableOpacity  style = {styles.love} onPress = {() => saveMovieHandler()}>
+            <TouchableOpacity  style = {styles.love} onPress = {saveMovieHandler}>
                 <AntDesign name= {like ? "heart" : "hearto"} size={24} color="white"  />
             </TouchableOpacity>
             

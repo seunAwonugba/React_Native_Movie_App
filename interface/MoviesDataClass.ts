@@ -6,8 +6,8 @@ export interface MoviesInterface {
 }
 
 export interface Result {
-    adult:             boolean;
-    backdrop_path:     string;
+    adult?:             boolean;
+    backdrop_path?:     string;
     genre_ids:         number[];
     id:                number;
     original_language: string;
